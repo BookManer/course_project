@@ -4,6 +4,18 @@ const HTMLWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const getJSLoaders = () => {
+  const loaders = [{
+      loader: 'babel-loader',
+      options: {
+          presets: ['@babel/preset-env'],
+      }
+  }];
+  
+  if (devMode) { loaders.push("eslint-loader"); }
+
+  return loaders;
+}
 const devMode = process.env.NODE_ENV !== 'production';
 const filenameByModeEnv = (name, ext) => devMode ? `${name}.${ext}` : `${name}.[hash].${ext}`;
 console.log('Mode\'s development equals to', devMode ? 'development' : 'production');
@@ -17,7 +29,8 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
   },
   resolve: {
-    extensions: ["js"],
+    modules: ["src", "node_modules"],
+    extensions: [".js"],
     alias: {
       "@": path.resolve(__dirname, "src"),
       "@core": path.resolve(__dirname, "src/core"),
@@ -26,6 +39,7 @@ module.exports = {
   devtool: devMode ? "source-map" : false,
   devServer: {
       port: 3000,
+      hot: devMode,
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -39,8 +53,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.join(__dirname, "src/favicon.ico"),
-          to: path.join(__dirname, "dist"),
+          from: path.resolve(__dirname, "src/favicon.ico"),
+          to: path.resolve(__dirname, "dist"),
         },
       ],
     }),
@@ -57,6 +71,8 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader,
             options: {
               esModule: true,
+              hmr: devMode,
+              reloadAll: true,
             },
           },
           "css-loader",
@@ -66,12 +82,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: {
-            loader: 'babel-loader',
-            options: {
-                presets: ['@babel/preset-env'],
-            }
-        },
+        use: getJSLoaders()
       },
     ],
   },
