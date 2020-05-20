@@ -1,17 +1,15 @@
 // Modules
-import './module.js';
-
+import {Exel} from '@/components/Exel/index.js';
+import {Header} from '@/components/Header/index.js';
+import {Formula} from '@/components/Formula/index.js';
+import {Toolbar} from '@/components/Toolbar/index.js';
+import {Table} from '@/components/Table/index.js';
 // Styles
-import './style.sass';
+import './scss/index.scss';
 
-(async () => {
-    console.log('start');
-    await waitForMilliseconds(5000);
-    console.log('in 5 seconds - worked!!');
-})();
-
-async function waitForMilliseconds(milliseconds) {
-    return new Promise((res, rej) => {
-        setTimeout(res, milliseconds);
-    })
+try {
+    const exel = new Exel("#app", { components: [Header, Formula, Toolbar, Table] });
+    exel.render();
+} catch(err) {
+    console.log(err);
 }
