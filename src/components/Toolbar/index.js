@@ -1,12 +1,7 @@
 import { ExelComponent } from "@core/ExelComponent";
 
 export class Toolbar extends ExelComponent {
-    static componentName = 'toolbar';
-
-    constructor(parentDOMClass, $root) {
-        Toolbar.componentName = `${parentDOMClass}__${Toolbar.componentName}`;
-        super($root);
-    }
+    static componentName = 'excel__toolbar';
 
     toHTML() {
         return `

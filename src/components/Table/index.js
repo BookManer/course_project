@@ -1,12 +1,7 @@
 import { ExelComponent } from "@core/ExelComponent";
 
 export class Table extends ExelComponent {
-  static componentName = "table";
-
-  constructor(parentDOMClass, $root) {
-    Table.componentName = `${parentDOMClass}__${Table.componentName}`;
-    super($root);
-  }
+  static componentName = "excel__table";
 
   toHTML() {
     return `

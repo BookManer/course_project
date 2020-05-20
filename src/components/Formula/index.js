@@ -1,12 +1,7 @@
 import {ExelComponent} from '@core/ExelComponent.js';
 
 export class Formula extends ExelComponent {
-    static componentName = 'formula';
-
-    constructor(parentDOMClass, $root) {
-        Formula.componentName = `${parentDOMClass}__${Formula.componentName}`;
-        super($root);
-    }
+    static componentName = 'excel__formula';
 
     toHTML() {
         return `

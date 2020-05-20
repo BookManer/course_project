@@ -1,3 +1,5 @@
+import {$} from '@core/dom.js';
+
 export class Exel {
     constructor(selector, options) {
         this.$el = document.querySelector(selector);
@@ -6,17 +8,14 @@ export class Exel {
 
     getRoot() {
         // Create root virtual node
-        const $root = document.createElement('div');
-        $root.classList.add('excel');
+        const $root = $.create('div', ['excel']);
         // Append user components in root
-        this.components.forEach(ComponentClass => {
-            const $componentContainer = document.createElement('div');
+        this.components.forEach(Component => {
+            const $el = $.create('div', [Component.componentName]);
             // Provided the root's class name node and container node into the Component
-            const componentIstance = new ComponentClass($root.className, $componentContainer);
-
-            $componentContainer.classList.add(ComponentClass.componentName);
-            $componentContainer.insertAdjacentHTML('afterbegin', componentIstance.toHTML());
-            $root.append($componentContainer);
+            const componentIstance = new Component($el);
+            $el.insertAdjacentHTML('afterbegin', componentIstance.toHTML());
+            $root.append($el);
         })
 
         return $root;

@@ -1,12 +1,7 @@
 import {ExelComponent} from '@core/ExelComponent.js';
 
 export class Header extends ExelComponent {
-    static componentName = 'header';
-
-    constructor(parentDOMClass, $root) {
-        Header.componentName = `${parentDOMClass}__${Header.componentName}`;
-        super($root);
-    }
+    static componentName = 'excel__header';
 
     toHTML() {
         return `
