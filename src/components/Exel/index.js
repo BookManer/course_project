@@ -8,14 +8,17 @@ export class Exel {
 
     getRoot() {
         // Create root virtual node
-        const $root = $($.create('div', ['excel']));
+        const $root = $.create('div', ['excel']);
         // Append user components in root
-        this.components.forEach(Component => {
-            const $el = $($.create('div', [Component.componentName]));
+        this.components = this.components.map(Component => {
+            const $el = $.create('div', [Component.componentName]);
             // Provided the root's class name node and container node into the Component
-            const componentIstance = new Component($el);
-            $el.html(componentIstance.toHTML());
+            const componentInstance = new Component($el);
+            console.log(Component.componentName);
+            $el.html(componentInstance.toHTML());
             $root.append($el);
+
+            return componentInstance;
         })
 
         return $root;
@@ -23,5 +26,6 @@ export class Exel {
 
     render() {
         this.$el.append(this.getRoot());
+        this.components.forEach(component => { component.init(); });
     }
 }

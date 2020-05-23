@@ -1,8 +1,15 @@
 export class DOMListener {
-    constructor($root) {
+    constructor($root, listeners = []) {
+        this.listeners = listeners;
+
         if (!$root)
             throw new Error('Error: $root is not defined by the current component');
-        else
-            console.log($root);
+    }
+
+    initDOMListeners() {
+    }
+
+    removeDOMListeners() {
+        // some code...
     }
 }

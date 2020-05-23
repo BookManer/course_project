@@ -1,5 +1,6 @@
+const regexpHTML = /<\/?[a-z][\s\S]*>/i;
+
 class Dom {
-    regxpHTML = /<\/?[a-z][\s\S]*>/ig;
     /**
      * 
      * @param {String|HTMLElement|Dom} selector - the selector by the DOMNnode
@@ -15,7 +16,7 @@ class Dom {
         } else if (typeof selector === 'string') {
             // There maybe a two situations such as an inline html value and a simple string
             // Don't the selector contains a HTML code ? 
-            if (!this.regxpHTML.test(selector)) {
+            if (!regexpHTML.test(selector)) {
                 this.$nativeElement = document.querySelector(selector); 
             } else {
                 throw new Error(`Dom.js error: constructor can\'t contains a HTML code as parametrs
@@ -26,7 +27,7 @@ class Dom {
 
     /**
      * 
-     * @param {HTMLElement|Dom|String} html 
+     * @param {String|HTMLElement|Dom} html 
      * @returns {Dom|String} returns html value or Dom object 
      */
     html(html) {
@@ -38,10 +39,11 @@ class Dom {
 
                 this.$nativeElement = $el;
             } else if (typeof html === 'string') {
-                if (!this.regxpHTML.test(html)) {
-                    this.$nativeElement.innerHTML = this.$nativeElement.querySelector(html).innerHTML;
-                } else {
+                if (regexpHTML.test(html)) {
                     this.$nativeElement.innerHTML = html;
+                } else {
+                    console.log("querySelector");
+                    this.$nativeElement.innerHTML = this.$nativeElement.querySelector(html).innerHTML;
                 }
             }
 
@@ -53,7 +55,7 @@ class Dom {
 
     /**
      * It inserts HTML code
-     * @param {Dom|HTMLElement|String} node - it contains DOM value for insert html code
+     * @param {String|HTMLElement|Dom} node - it contains DOM value for insert html code
      * @returns {Dom} it returns the Dom object
      */
     append(node) {
@@ -64,7 +66,7 @@ class Dom {
 
             this.$nativeElement.append($el);
         } else if (typeof node === 'string') {
-            if (!this.regxpHTML.test(node)) {
+            if (!regexpHTML.test(node)) {
                 this.$nativeElement.append(document.querySelector(node));
             } else {
                 this.$nativeElement.insertAdjacentHTML('afterbegin', node);
@@ -90,5 +92,5 @@ $.create = (tagName, classes = []) => {
     const $node = document.createElement(tagName);
     $node.classList = classes;
 
-    return $node;
+    return $($node);
 }
