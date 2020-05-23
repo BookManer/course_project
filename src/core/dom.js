@@ -26,6 +26,15 @@ class Dom {
     }
 
     /**
+     * A listener on a DOM event
+     * @param {String} eventType - the native event's type 
+     * @param {Function} callback  - the function whicch call as callback
+     */
+    on(eventType, callback) {
+        this.$nativeElement.addEventListener(eventType, callback);
+    }
+
+    /**
      * 
      * @param {String|HTMLElement|Dom} html 
      * @returns {Dom|String} returns html value or Dom object 

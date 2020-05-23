@@ -10,6 +10,14 @@ export class Formula extends ExelComponent {
         });
     }
 
+    onInput(event) {
+        console.log(event.target.textContent);
+    }
+
+    onClick(event) {
+        console.log('Нажал!');
+    }
+
     toHTML() {
         return `
             <div class="info">fx</div>
