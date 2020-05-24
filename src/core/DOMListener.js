@@ -11,17 +11,28 @@ export class DOMListener {
 
     initDOMListeners() {
         this.listeners.forEach(listener => {
-            const method = indentCapitalize(listener);
-            const nameEventType = getNameEventType(method);
+            const nameEventType = getNameEventType(listener);
+            if (!this[nameEventType]) {
+                const name = this.name || '';
+                throw new Error(`Method listener ${nameEventType} is not implemented in ${name} component`);
+            }
+
+            this[nameEventType] = this[nameEventType].bind(this);
             this.$root.on(listener, this[nameEventType]);
         })
     }
 
     removeDOMListeners() {
-        // some code...
+        this.listeners.forEach(listener => {
+            const nameEventType = getNameEventType(listener);
+            this.$root.off(listener, this[nameEventType]);
+        })
     }
 }
 
 function getNameEventType(eventType) {
-    return 'on' + eventType;
+    const method = indentCapitalize(eventType);
+    const nameEventType = 'on' + method;
+
+    return nameEventType;
 }

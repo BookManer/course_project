@@ -3,6 +3,17 @@ import {ExelComponent} from '@core/ExelComponent.js';
 export class Header extends ExelComponent {
     static componentName = 'excel__header';
 
+    constructor($root) {
+        super($root, {
+            name: 'Header',
+            listeners: ['mouseover'],
+        });
+    }
+
+    onMouseover(event) {
+        console.log('Навёл :)');
+    }
+
     toHTML() {
         return `
             <input type="text" class="input" value="Новая таблица" />

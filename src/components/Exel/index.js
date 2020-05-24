@@ -14,7 +14,10 @@ export class Exel {
             const $el = $.create('div', [Component.componentName]);
             // Provided the root's class name node and container node into the Component
             const componentInstance = new Component($el);
-            console.log(Component.componentName);
+            // DEBUG
+            if (componentInstance.name === 'Header') {
+                window.cHeader = componentInstance;
+            }
             $el.html(componentInstance.toHTML());
             $root.append($el);
 

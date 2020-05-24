@@ -26,12 +26,21 @@ class Dom {
     }
 
     /**
-     * A listener on a DOM event
+     * Add a listener on a DOM event
      * @param {String} eventType - the native event's type 
-     * @param {Function} callback  - the function whicch call as callback
+     * @param {Function} callback  - the function which call as callback
      */
     on(eventType, callback) {
         this.$nativeElement.addEventListener(eventType, callback);
+    }
+
+    /**
+     * Remove a listener on a DOM event
+     * @param {String} eventType - the native event's type 
+     * @param {Function} callback - the function which call as callback
+     */
+    off(eventType, listener) {
+        this.$nativeElement.removeEventListener(eventType, listener);
     }
 
     /**
@@ -51,7 +60,6 @@ class Dom {
                 if (regexpHTML.test(html)) {
                     this.$nativeElement.innerHTML = html;
                 } else {
-                    console.log("querySelector");
                     this.$nativeElement.innerHTML = this.$nativeElement.querySelector(html).innerHTML;
                 }
             }

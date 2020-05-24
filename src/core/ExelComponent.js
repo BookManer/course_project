@@ -1,8 +1,9 @@
 import {DOMListener} from './DOMListener.js';
 
 export class ExelComponent extends DOMListener {
-    constructor($root, {listeners} = {}) {
+    constructor($root, {name, listeners} = {}) {
         super($root, listeners);
+        this.name = name;
     }
 
     toHTML() {
@@ -11,5 +12,9 @@ export class ExelComponent extends DOMListener {
 
     init() {
         this.initDOMListeners();
+    }
+
+    destroy() {
+        this.removeDOMListeners();
     }
 }
