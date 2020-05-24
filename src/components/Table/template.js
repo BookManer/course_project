@@ -1,10 +1,14 @@
+import {fromCharAt} from '@core/utils.js';
+
 const CODES = {
   START: "A",
   END: "Z",
 };
 let counterRow = 0;
+let isIndexBoundWords = false;
 
-export function template(countColumns = 26) {
+export default ((countColumns = 36) => {
+  window.countColumns = countColumns;
   let table = new Array(countColumns);
   table = table
     .fill("")
@@ -14,7 +18,7 @@ export function template(countColumns = 26) {
     .join("");
 
   return table;
-}
+})();
 
 function toRow(_, index) {
   const infoCell = index === 0 ? "" : index;
@@ -31,10 +35,7 @@ function toRow(_, index) {
 }
 
 function getColumns() {
-  const END = CODES.END.charCodeAt(0);
-  const START = CODES.START.charCodeAt(0);
-  const length = Math.abs(END - START) + 1;
-  let columns = new Array(length);
+  let columns = new Array(window.countColumns);
 
   columns = columns.fill("")
     .map(toCode)
@@ -45,19 +46,38 @@ function getColumns() {
   return columns;
 }
 
-function column(char) {
+function column(char, index) {
+  const END = fromCharAt(CODES.END);
+  console.log(END);
+  const START = fromCharAt(CODES.START);
+  const length = Math.abs(END - START) + 1;
+  let boundIndex = (Math.floor(index / length) + 1)
+
+  if (index !== 0 && (index % length === 0)) {
+    isIndexBoundWords = true;
+  }
+  char = isIndexBoundWords ? String.fromCharCode(START + index-(length * (boundIndex-1))) : char;
+
+  const nameCellHeader = (index <= length) ? char : dubleChar(char, boundIndex);
   const template =
     counterRow !== 0
-      ? `<div class="cell" contenteditable>${char}${counterRow}</div>`
-      : `<div class="column">${char}</div>`;
+      ? `<div class="cell" contenteditable>${nameCellHeader}${counterRow}</div>`
+      : `<div class="column">${nameCellHeader}</div>`;
 
   return template;
 }
 
-function toChar(code, index) {
+function dubleChar(char, count) {
+  let newChar = new Array(count);
+  newChar = newChar.fill('').map(el => char).join('');
+
+  return newChar;
+} 
+
+function toChar(code) {
   return String.fromCharCode(code);
 }
 
-function toCode(char, index = 0) {
+function toCode(_, index = 0) {
   return CODES.START.charCodeAt(0) + index;
 }

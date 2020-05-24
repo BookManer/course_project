@@ -3,3 +3,7 @@ export function indentCapitalize(string) {
 
     return indentChar + string.slice(1);
 }
+
+export function fromCharAt(char) {
+    return char.charCodeAt(0);
+}
